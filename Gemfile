@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby '2.1.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
@@ -52,6 +52,7 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'puma'
 end
 # Using bootstrap for responsive css
 gem 'bootstrap-sass', '~> 3.3.6'
