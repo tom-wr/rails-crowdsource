@@ -18,7 +18,7 @@ class ResponsesController < ApplicationController
           count: count
         }
       else
-        render :json => {:done => true}
+        render :js => "window.location = '/surveys/1'"
       end
     end
   end

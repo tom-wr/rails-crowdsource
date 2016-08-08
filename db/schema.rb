@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160805150537) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "dataset_assignments", force: :cascade do |t|
     t.integer  "taskflow_id"
     t.integer  "dataset_id"
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 20160805150537) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "dataset_assignments", ["taskflow_id", "dataset_id"], name: "index_dataset_assignments_on_taskflow_id_and_dataset_id"
+  add_index "dataset_assignments", ["taskflow_id", "dataset_id"], name: "index_dataset_assignments_on_taskflow_id_and_dataset_id", using: :btree
 
   create_table "datasets", force: :cascade do |t|
     t.string   "title"

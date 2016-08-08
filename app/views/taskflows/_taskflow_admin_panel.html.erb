@@ -6,7 +6,7 @@
     <div class="col-md-6">
       <%= f.text_field :title %>
 
-        <%= f.select :first_task_id, options_for_select(@tasks.collect {|t| [t.title, t.id]}, @taskflow.first_task_id), {} ,disabled: !@taskflow.first_task_id  %>
+        <%= f.select :first_task_id, options_for_select(@tasks.collect {|t| [t.title, t.id]}, @taskflow.first_task_id), {}  %>
 
     </div>
 

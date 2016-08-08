@@ -10,6 +10,7 @@ ready = ->
     console.log app
 
 $(document).ready(ready)
+$(document).on("turbolinks:load", ready)
 
 class ClassifyApp
 
@@ -27,6 +28,7 @@ class ClassifyApp
     @events()
 
   start: ->
+    console.log("statrting app")
     @load_image()
 
   # we bind events to elements as dependencies
@@ -119,6 +121,7 @@ class ClassifyApp
     @toggle_button()
 
   populate_answers: (data) ->
+    console.log data
     $("#question").text(data.task.title)
     $("#count").text(data.count)
     @display_answer answer for answer in data.task.data
