@@ -1,0 +1,55 @@
+{
+  "id": 1,
+  "pages": [
+    [{
+        "id": "paras",
+        "type": "matrix",
+        "scale": 7,
+        "text": "Please rate this from 0-7",
+        "terms": [
+          {"id": 1, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
+          {"id": 2, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
+          {"id": 3, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
+          {"id": 4, "term": "I was able to put myself in the shoes of those depicted in the photographs"}
+        ]
+    }],
+    [{
+        "id": "emotion",
+        "type": "matrix",
+        "scale": 7,
+        "text": "Please rate this from 0-7",
+        "terms": [
+          {"id": 1, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
+          {"id": 2, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
+          {"id": 3, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
+          {"id": 4, "term": "I was able to put myself in the shoes of those depicted in the photographs"}
+
+        ]
+    }],
+
+       [{
+          "id": "gender",
+          "type": "select",
+          "text": "What is your gender?",
+          "terms": [
+            "male",
+            "female"
+          ]
+        },
+        {
+          "id": "age",
+          "type": "select",
+          "text": "What is your age?",
+          "terms": [
+            "18-24",
+            "25-35",
+            "35-45",
+            "45-55",
+            "55-65",
+            "65-75",
+            "75+"
+          ]
+        }
+      ]
+  ]
+}

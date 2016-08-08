@@ -1,0 +1,17 @@
+
+<% if local_assigns.has_key?(:res) %>
+<div class="task-response form-group">
+
+  <%= label_tag :text, "Text", :class => 'label-control' %>
+  <%= text_field_tag "task[data][][text]", '', :class => 'form-control', :value => res[:text] %>
+
+  <% if local_assigns.has_key?(:tasks) %>
+    <%= label_tag :text, "Next task", :class => 'label-control' %>
+    <%= select_tag "task[data][][next]", options_for_select(next_task_options(tasks), res[:next]), :class => 'form-control' %>
+
+  <% end %>
+
+</div>
+<hr>
+
+<% end %>

@@ -1,0 +1,36 @@
+<div class="container">
+  <section class="survey-section survey-title-page">
+    <p>Welcome, welcome to this survey!</p>
+    <button class="btn survey-next-btn">Start</button>
+  </section>
+
+  <%= bootstrap_form_tag url: survey_responses_path do |f| %>
+    <% @questions["pages"].each_with_index do |section, index| %>
+
+      <section class="survey-section survey-page" id=<%= "page_" +  (index + 1).to_s %>>
+
+      <% section.each do |question| %>
+
+        <% name = "survey[data["+question["id"].to_s+"]" %>
+
+        <% case question["type"] %>
+          <% when "matrix" %>
+            <%= render "surveys/question_radio_matrix", {:question => question, :name=> name } %>
+          <% when "select" %>
+            <%= render "surveys/question_radio", { :question => question, :name=> name } %>
+          <% end %>
+      <% end %>
+
+
+      <% if (index + 1) == @questions["pages"].length %>
+        <input class="btn" name="commit" type="submit" value="Submit">
+      <% else %>
+        <button type="button" class="btn survey-next-btn">Next</button>
+      <% end %>
+
+
+    </section>
+    <% end %>
+  <% end %>
+
+</div>

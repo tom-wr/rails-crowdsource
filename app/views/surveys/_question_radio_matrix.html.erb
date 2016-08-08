@@ -1,0 +1,30 @@
+<h3 class="survey-question-title"><%= question["text"] %></h3>
+
+<table class="table table-striped">
+  <thead>
+  <thead>
+    <tr>
+      <th></th>
+      <% for i in 1..question["scale"].to_i %>
+        <th><%= i %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% question["terms"].each do |term| %>
+      <tr>
+        <th style="width:25%"><%= term["term"] %></th>
+        <% for i in 1..question["scale"].to_i %>
+          <td>
+            <%= render "surveys/radio_inline", {:value => i, :name => (name + "[" + term["id"].to_s + "]]") } %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+
+  </tbody>
+
+
+  </thead>
+</table>
+

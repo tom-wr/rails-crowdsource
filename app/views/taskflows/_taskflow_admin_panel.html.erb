@@ -1,0 +1,62 @@
+
+<h2>Taskflow</h2>
+<%= bootstrap_form_for @taskflow do |f| %>
+  <div class="row">
+
+    <div class="col-md-6">
+      <%= f.text_field :title %>
+
+        <%= f.select :first_task_id, options_for_select(@tasks.collect {|t| [t.title, t.id]}, @taskflow.first_task_id), {} ,disabled: !@taskflow.first_task_id  %>
+
+    </div>
+
+    <div class="col-md-6">
+      <%= f.text_area :description %>
+      <%= f.hidden_field :project_id, value: @project.id %>
+      <%= f.submit "Save", class: 'btn btn-primary pull-right' %>
+      <%= puts @taskflow.id %>
+    </div>
+
+  </div>
+
+  <% end %>
+
+  <hr>
+  <% if @taskflow.id %>
+
+  <h2>Tasks</h2>
+  <div class="row">
+
+    <div class="col-md-5 admin-task-select-panel">
+
+      <ul class="list-group">
+        <% @tasks.each do |t| %>
+          <li class="list-group-item">
+
+            <span class="glyphicon glyphicon-pencil"></span>
+            <%= link_to t.title, edit_task_path(t, taskflow_id: @taskflow.id), remote: true  %>
+
+            <div class="task-destroy pull-right">
+              <%= link_to t, method: :delete do %>
+                <span class="glyphicon glyphicon-remove"></span>
+              <% end %>
+            </div>
+
+          </li>
+        <% end %>
+        <li class="list-group-item">
+          <center>
+            <%= link_to "Add new", new_task_path(taskflow_id: @taskflow.id), remote:true %>
+          </center>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-7" id="admin-task-panel">
+      <span class="glyphicon glyphicon-arrow-left"></span> Select or add a task.
+    </div>
+
+  <% end %>
+
+  </div>
+

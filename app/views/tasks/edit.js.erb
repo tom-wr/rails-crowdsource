@@ -1,0 +1,4 @@
+$('#admin-task-panel').html("<%= j render partial: 'tasks/task_admin_panel', locals: { task: @task, taskflow: @taskflow } %>")
+$('.add-response-btn').on('click',function(e){
+  $('.admin-task-responses').append("<%= j render 'tasks/task_response', {:res => {text:'', next:nil}, :tasks => @tasks} %>");
+})

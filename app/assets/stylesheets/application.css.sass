@@ -1,0 +1,48 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+$border-radius-base: 3px
+$border-radius-large: 3px
+$border-radius-small: 3px
+
+@import "bootstrap-sprockets"
+@import "bootstrap"
+
+$col-black: #000
+$col-white: #ffffff
+$col-off-black: #333
+$col-off-white: #f8f8f8
+
+$border-radius-base: 100
+
+
+body
+  color: $col-black
+  background-color: $col-white
+  height: 100vh
+
+.main
+  height: 100%
+
+.header
+  padding: 20px
+
+.jumbotron
+  color: $col-off-black
+  background-color: $col-off-white
+
+.panel
+  background-color: $col-white

@@ -1,0 +1,33 @@
+
+  <% if @dataset.errors.any? %>
+  <div id='error_explanation' class='alert alert-danger' role='danger'>
+    <strong>
+      <%= pluralize(@dataset.errors.count, 'error') %> prohibited this project from being saved:
+    </strong>
+    <ul>
+      <% @dataset.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <%= bootstrap_form_for @dataset do |f| %>
+  <p>
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= f.text_area :description %>
+  </p>
+
+  <p>
+    <%= f.file_field :images, multiple: true %>
+  </p>
+
+  <p>
+    <%= f.hidden_field :project_id, value: @project.id %>
+    <%= f.submit  %>
+  </p>
+
+  <% end %>

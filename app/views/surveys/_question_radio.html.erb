@@ -1,0 +1,6 @@
+<div class="form-group">
+  <h3 class="survey-question-title"><%= question["text"] %></h3>
+  <% question["terms"].each_with_index do | term, i | %>
+    <%= render "surveys/radio", { :value => i, :name => question["id"], :term => term } %>
+  <% end %>
+</div>

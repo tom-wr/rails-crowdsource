@@ -1,0 +1,20 @@
+<div class='container'>
+
+  <h1><%= @project.title %></h1>
+  <p><%= link_to 'Back', projects_path %> </p>
+
+
+  <div class="row">
+
+    <div class="col-md-3" id="admin-side-panel">
+      <%= render 'shared/admin_sidepanel' %>
+    </div>
+
+    <div class="col-md-9" id='admin-main-panel'>
+      <%= render 'shared/project_form' %>
+    </div>
+
+  </div>
+
+</div>
+

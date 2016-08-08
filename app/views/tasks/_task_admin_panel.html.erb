@@ -1,0 +1,28 @@
+<%= bootstrap_form_for @task do |f| %>
+
+  <%= f.text_field :title %>
+  <%= f.text_area :help %>
+  <%= f.text_field :task_type %>
+  <%= f.hidden_field :taskflow_id, value: @taskflow.id %>
+
+  <hr>
+
+  <p><strong>Responses</strong></p>
+  <br>
+
+  <div class="admin-task-responses">
+
+  <% if @task.data %>
+    <% @task.data.each do |r| %>
+      <%= render "tasks/task_response", {:res => r, :tasks => @tasks } %>
+    <% end %>
+  <% end %>
+
+  </div>
+
+  <div class="btn btn-primary add-response-btn">
+    <span class="glyphicon glyphicon-plus-sign"></span> Add Response
+  </div>
+
+  <%= f.submit %>
+<% end %>

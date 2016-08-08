@@ -1,0 +1,14 @@
+
+<h2 id="question"><%= @task.title %></h2>
+
+<hr>
+
+<div id="answers">
+  <% data = @task.data %>
+  <ul id="answer-list" class="list-group">
+    <% data.each do |question| %>
+      <li data="<%= question[:next] %>" class="answer list-group-item list-group-item-action" ><%= question[:text] %></li>
+    <% end %>
+  </ul>
+  <button id="next-button" class="btn">Next</button>
+</div>

@@ -1,0 +1,17 @@
+<% @projects.each_slice(3) do | slice | %>
+
+    <div class='row'>
+    <% slice.each do |project| %>
+      <div class='col-md-4'>
+        <div class='panel'>
+          <h3><%= project.title %></h3>
+          <%= link_to "View", project_path(project) %>
+          <%= link_to "Edit", edit_project_path(project) %>
+          <%= link_to "Delete", project_path(project), method: :delete, data: {confirm: 'Are you sure?'} %>
+        </div>
+      </div>
+      <% end %>
+
+    </div>
+
+<% end %>

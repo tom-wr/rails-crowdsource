@@ -1,0 +1,56 @@
+{
+  "id": 1,
+  "pages": [
+    {
+      "0": [{
+        "type": "matrix",
+        "scale": 7,
+        "text": "Please rate this from 0-7",
+        "terms": [
+          "happy",
+          "sad",
+          "morbid",
+          "frustrated"
+        ]
+      }]
+    },
+    {
+      "1": [{
+        "type": "matrix",
+        "scale": 7,
+        "text": "Please rate this from 0-7",
+        "terms": [
+          "nice",
+          "good",
+          "great",
+          "hello"
+        ]
+      }]
+    },
+    {
+      "2": [
+        {
+          "type": "select",
+          "text": "What is your gender?",
+          "terms": [
+            "male",
+            "female"
+          ]
+        },
+        {
+          "type": "select",
+          "text": "What is your age?",
+          "terms": [
+            "18-24",
+            "25-35",
+            "35-45",
+            "45-55",
+            "55-65",
+            "65-75",
+            "75+"
+          ]
+        }
+      ]
+    }
+  ]
+}
