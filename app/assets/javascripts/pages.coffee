@@ -2,15 +2,18 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+#=require anisam
+#
 ready = ->
   # App started with globals set in classify.html.erb
   if gl?
+    console.log "gl ready"
+    anisam = new AniSam('#anisam-panel')
     app = new ClassifyApp(gl)
     app.start()
-    console.log app
 
-$(document).ready(ready)
-$(document).on("turbolinks:load", ready)
+
+$(document).on("page:load ready", ready)
 
 class ClassifyApp
 
@@ -91,10 +94,8 @@ class ClassifyApp
   advance: (data_dump) ->
     @test(@data_pool)
     if data_dump.next is 0
-      console.log("end task")
       @end_task()
     else
-      console.log "next task"
       @get_next_task(data_dump.next)
 
   get_next_task: (next) ->
@@ -121,7 +122,6 @@ class ClassifyApp
     @toggle_button()
 
   populate_answers: (data) ->
-    console.log data
     $("#question").text(data.task.title)
     $("#count").text(data.count)
     @display_answer answer for answer in data.task.data

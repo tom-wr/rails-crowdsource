@@ -29,7 +29,7 @@ class ResponsesController < ApplicationController
 
   def count_completed_responses
     if cookies[:completed] != nil
-      cookies[:completed] = cookies[:completed].to_i + 1
+      cookies[:completed] = 1#cookies[:completed].to_i + 1
     else
       cookies[:completed] = 1
     end

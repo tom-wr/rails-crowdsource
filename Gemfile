@@ -58,9 +58,8 @@ end
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'bootstrap_form'
 gem 'autoprefixer-rails'
-gem 'underscore-rails'
+gem 'nouislider-rails'
+gem 'font-awesome-sass'
 
 # carrierwave for handling dataset file uploads and processing
 gem 'carrierwave', '~> 0.11.2'
-
-

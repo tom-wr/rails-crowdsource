@@ -1,3 +1,5 @@
+<%= javascript_include_tag "fabric" %>
+
 <script type="text/javascript">
   gl = {};
   gl.project = <%= @project.id %>;
@@ -12,7 +14,28 @@
       <img id="image" class="img-responsive center-block"> </img>
     </div>
 
-    <div id="question-panel" class="col-md-4">
+    <div id="question-panel" class="col-md-4 container">
+      <div id="anisam-panel" class="row"></div>
+      <div id="anisam-sliders" class="container-fluid">
+        <div class="anisam-slider-row row">
+          <i class="fa fa-frown-o fa-2x col-md-1" aria-hidden="true"></i>
+          <div id='pleasure-slider' class="anisam-slider col-md-10"></div>
+          <i class="fa fa-smile-o fa-2x col-md-1" aria-hidden="true"></i>
+        </div>
+
+        <div class="anisam-slider-row row">
+          <i class="fa fa-heart col-md-1" aria-hidden="true"></i>
+          <div id='arousal-slider' class="anisam-slider col-md-10"></div>
+          <i class="fa fa-heartbeat fa-2x col-md-1" aria-hidden="true"></i>
+        </div>
+
+        <div class="anisam-slider-row row">
+          <i class="fa fa-user col-md-1" aria-hidden="true"></i>
+          <div id='dominance-slider' class="anisam-slider col-md-10"></div>
+          <i class="fa fa-user fa-2x col-md-1" aria-hidden="true"></i>
+        </div>
+
+      </div>
       <%= render "pages/classify_answers" %>
     </div>
 
