@@ -14,5 +14,6 @@
 //= require jquery_ujs
 //= require nouislider
 //= require turbolinks
+//= require fabric
 //= require bootstrap-sprockets
 //= require_tree .

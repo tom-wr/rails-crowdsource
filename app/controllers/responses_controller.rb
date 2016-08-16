@@ -10,7 +10,7 @@ class ResponsesController < ApplicationController
     response = Response.new(response_params)
     if response.save
       count = count_completed_responses
-      if count < 10
+      if count < 20
         query = response_query()
         render :json => {
           task: query[:task],
@@ -24,12 +24,12 @@ class ResponsesController < ApplicationController
   end
 
   def response_params
-    params.require(:response).permit(:project_id, :session_id, :image_id, data: [:question, :answer])
+    params.require(:response).permit(:project_id, :session_id, :image_id, data: [:question, answer: []])
   end
 
   def count_completed_responses
     if cookies[:completed] != nil
-      cookies[:completed] = 1#cookies[:completed].to_i + 1
+      cookies[:completed] = cookies[:completed].to_i + 1
     else
       cookies[:completed] = 1
     end
@@ -39,7 +39,7 @@ class ResponsesController < ApplicationController
   def response_query
     project = Project.find(params[:project_id])
     taskflow = project.taskflows.sample
-    task = taskflow.first_task.slice("id", "data", "help", "title")
+    task = taskflow.first_task.slice("id", "data", "help", "title", "task_type")
     taskflow = taskflow.slice("title", "id")
     results = {
       :task => task,

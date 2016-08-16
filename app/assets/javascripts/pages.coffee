@@ -4,16 +4,24 @@
 
 #=require anisam
 #
+
+if typeof Turbolinks != 'undefined'
+  $(document).on("page:load ready", ->
+    ready()
+  )
+else
+  $(document).ready(ready)
+
 ready = ->
   # App started with globals set in classify.html.erb
   if gl?
-    console.log "gl ready"
-    anisam = new AniSam('#anisam-panel')
+    if gl["task_type"] is "2"
+      anisam = new AniSam('#anisam-panel')
+      anisam.start()
     app = new ClassifyApp(gl)
     app.start()
 
-
-$(document).on("page:load ready", ready)
+#$(document).on("page:load ready", ready)
 
 class ClassifyApp
 
@@ -31,7 +39,7 @@ class ClassifyApp
     @events()
 
   start: ->
-    console.log("statrting app")
+    console.log("starting app")
     @load_image()
 
   # we bind events to elements as dependencies
@@ -63,24 +71,47 @@ class ClassifyApp
     @data_pool.push(data)
 
   # we get data from the page and hold it in the dump
-  data_dump: ->
+  data_dump_choice: ->
     answer = $(".answer.active")
     question = $("#question")
     next = parseInt(answer.attr("data"), 10)
 
     dd =
       question: question.text()
-      answer: answer.text()
+      answer: [answer.text()]
       next: next
+
+  data_dump_anisam: ->
+    question = $("#question")
+
+    dd =
+      question: question.text()
+      answer: [
+        window.sliders.pleasure.get()
+        window.sliders.arousal.get()
+        window.sliders.dominance.get()]
+      next: 0
 
   # data is taken from the page added to the main pool and advnace to next step
   next_click: ->
+    task_type = $("#question").attr("data")
+    switch task_type
+      when "1" then @handle_choice_answers()
+      when "2" then @handle_anisam_answers()
+
+  handle_choice_answers: ->
     if @answer_is_selected()
-      data_dump = @data_dump()
+      data_dump = @data_dump_choice()
       dd = @add_to_data_pool(data_dump)
-      @advance(data_dump)
+      @advance(data_dump.next)
     else
       @display_message("Please select an answer")
+
+  handle_anisam_answers: ->
+    data_dump = @data_dump_anisam()
+    dd = @add_to_data_pool(data_dump)
+    @advance(data_dump.next)
+    #@submit_click()
 
   submit_click: ->
     $.post "/responses",
@@ -91,12 +122,11 @@ class ClassifyApp
     .done (data) =>
       @reset_task(data)
 
-  advance: (data_dump) ->
-    @test(@data_pool)
-    if data_dump.next is 0
+  advance: (next) ->
+    if next is 0
       @end_task()
     else
-      @get_next_task(data_dump.next)
+      @get_next_task(next)
 
   get_next_task: (next) ->
     $.get "/tasks/" + next, (data) =>
@@ -107,27 +137,41 @@ class ClassifyApp
 
   show_summary: ->
     @clear_answer_list()
+    @clear_anisam()
     @summarise_answer answer for answer in @data_pool
     @toggle_button()
     $("#question").text("Summary")
 
   reset_task: (data) ->
+    task_type = data.task.task_type
+    @set_task_type(task_type)
     @load_image()
     @cleanse_answers()
-    @populate_answers(data)
+    if task_type == 1
+      @populate_answers(data)
+    else if task_type == 2
+      new AniSam("#anisam-panel")
+    $("#count").text(data.count)
 
   cleanse_answers: ->
     @data_pool = []
     @clear_answer_list()
+    @clear_anisam()
     @toggle_button()
 
   populate_answers: (data) ->
     $("#question").text(data.task.title)
-    $("#count").text(data.count)
     @display_answer answer for answer in data.task.data
 
   clear_answer_list: ->
     $("#answer-list").html("")
+
+  clear_anisam: ->
+    $("#anisam-canvas").remove()
+    $("#anisam-sliders").html("")
+
+  set_task_type: (task_type) ->
+    $("#question").attr(data: task_type)
 
   summarise_answer: (answer) ->
     $("#answer-list").append @answer_summary_view answer
@@ -145,7 +189,7 @@ class ClassifyApp
     $(".answer.active").length
 
   answer_summary_view: (answer) ->
-    "<li class='list-group-item list-group-item-action'>" + answer.question + " - " + answer.answer+ "</li>"
+    "<li class='list-group-item list-group-item-action'>" + answer.question + "<p class='pull-right'>" + answer.answer+ "</p></li>"
 
   answer_view: (answer) ->
     "<li class='answer list-group-item list-group-item-action' data=" + answer.next + ">" + answer.text + "</li>"

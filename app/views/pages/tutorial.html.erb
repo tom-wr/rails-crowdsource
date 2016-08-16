@@ -1,0 +1,57 @@
+
+<div class="container">
+  <div id="tutorial_info" class="lead">
+    <p>During this task some of the questions will require you to respond with an emotion. You can use the widget below to answer these questions!</p>
+    <p>Use the sliders to change the face until it describes the emotion you want to convey. When you are comfortable using the widget click 'next' to start the task.</p>
+  </div>
+  <div class="row">
+    <div id="anisam-panel" class="col-xs-6 col-xs-offset-3"></div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <%= render "shared/anisam" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div id="tutorial_slider_info" class="alert alert-info col-xs-6 col-xs-offset-3">
+
+    </div>
+    <a href="/classify/2" type="button" class="pull-right btn btn-lg btn-primary">Next</a>
+  </div>
+
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+  var anisam  = new AniSam("#anisam-panel");
+  anisam.start()
+  $("#tutorial_slider_info").hide()
+
+  var pleasure_info_text = "This slider controls the amount of pleasure in the emotion - from unpleasant to very pleasant."
+  var arousal_info_text = "This slider controls amount of excitement and felt activity in the emotion - from calm to excited."
+  var dominance_info_text = "This slider controls the felt amount of control and dominance in the emotion - from feeling submissive and not in control to feeling powerful and in-control."
+
+  sliders.pleasure.on("hover", function(value){
+    $("#tutorial_slider_info").show()
+    $("#tutorial_slider_info").html(slider_info_view("smile-o fa-2x", pleasure_info_text));
+  })
+  sliders.arousal.on("hover", function(value){
+    $("#tutorial_slider_info").show()
+    $("#tutorial_slider_info").html(slider_info_view("heartbeat fa-2x", arousal_info_text));
+
+  })
+  sliders.dominance.on("hover", function(value){
+    $("#tutorial_slider_info").show()
+    $("#tutorial_slider_info").html(slider_info_view("user fa-2x", dominance_info_text));
+  })
+
+  var slider_info_view = function (icon, text){
+    return "<i class='tutorial_info_icon fa fa-"+ icon + "'></i>" + text
+  }
+
+</script>

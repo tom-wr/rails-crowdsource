@@ -19,25 +19,33 @@ class AniSam
     offset: 0.07
 
   _brow =
-    level: 0.265
+    level: 0.255
     stroke: 2
 
   _body =
-    level: 0.6
+    level: 0.61
     neck_offset: 0.07
     neck_length: 0.1
     waist: 0.25
+
+  _heart =
+    level: 0.85
+    size: 1
+    begin: 1
+    change: 1.05
 
   constructor: (container) ->
 
     @emo_engine = new EmoEngine()
     @emotion = @emo_engine.setupPAD(0,0,0)
-    console.log @emotion
     @setup(container)
 
   setup: (container) ->
     @setup_canvas(container)
-    @render()
+    @setup_animation_framerate()
+    @last_time = 0
+    @heart_size = 0.1
+    @time = 0
 
   init_vars: ->
     canvas_height = @canvas.getHeight()
@@ -49,11 +57,20 @@ class AniSam
     @canvas = new fabric.StaticCanvas id
     @resize_canvas(container)
 
-  render: ->
-    @setup_features()
+  start: ->
+    @render()
+
+  render: () ->
+    window.requestAnimationFrame(=>
+      @render()
+    )
+    time = new Date().getTime()
+    delta = time - @last_time
+    @last_time = time
+    @setup_features(delta)
     @draw_features()
 
-  setup_features: ->
+  setup_features: (delta) ->
 
     centre = @canvas.getCenter().left
 
@@ -83,7 +100,7 @@ class AniSam
     eyeL = new Eye({
       x: centre - @nx _eye.offset
       y:          @ny _eye.level + @emotion.HEAD_DIP
-      size:       @nx _eye.size
+      size:       @nx _eye.size * @emotion.EYE_SIZE
       openness:   @emotion.EYE_SIZE
       pupil_size: @nx _eye.pupil_size
       lid_droop:  @emotion.EYELID_DROOP
@@ -92,7 +109,7 @@ class AniSam
     eyeR = new Eye({
       x: centre + @nx _eye.offset
       y:          @ny _eye.level + @emotion.HEAD_DIP
-      size:       @nx _eye.size
+      size:       @nx _eye.size * @emotion.EYE_SIZE
       openness:   @emotion.EYE_SIZE
       pupil_size: @nx _eye.pupil_size
       lid_droop:  @emotion.EYELID_DROOP
@@ -118,7 +135,42 @@ class AniSam
       length:   @nx @emotion.MOUTH_LENGTH
     })
 
-    @features = [body, face, eyeL, eyeR, mouth, browL, browR]
+    @heart_size_direction()
+    @time = @time + delta
+    @heart_size = @heart_animate(@time, _heart.begin, _heart.change, @emotion.HEART_PULSE)
+    @heart_size = @cap @heart_size, ( _heart.size + @emotion.HEART_RANGE), ( _heart.size - @emotion.HEART_RANGE)
+
+    heart = new Heart({
+      x: centre
+      y: @ny @emotion.HEART_DIP
+      width1: @nx 0.05 * (@heart_size + @emotion.HEART_SIZE)
+      height1: @ny 0.05 * (@heart_size + @emotion.HEART_SIZE)
+      width2: @nx 0.05 * (@heart_size + @emotion.HEART_SIZE)
+      height2: @ny 0.07 * (@heart_size + @emotion.HEART_SIZE)
+      point: @ny 0.1 * (@heart_size + @emotion.HEART_SIZE)
+    })
+
+    @features = [body, face, eyeL, eyeR, mouth, browL, browR, heart]
+
+  heart_size_direction: () ->
+    if @heart_size >= _heart.size + @emotion.HEART_RANGE
+      _heart.begin = @heart_size
+      _heart.change = (_heart.size - @emotion.HEART_RANGE) - @heart_size
+      @time = 0
+    else if @heart_size <= _heart.size - @emotion.HEART_RANGE
+      _heart.begin = @heart_size
+      _heart.change = (_heart.size + @emotion.HEART_RANGE) - @heart_size
+      @time = 0
+
+  heart_animate: (time, begin, change, duration) ->
+    return change * time / duration + begin
+
+  cap: (value, max, min) ->
+    if value < min
+      value = min
+    else if value > max
+      value = max
+    value
 
   draw_features: ->
     @canvas.clear()
@@ -127,7 +179,7 @@ class AniSam
 
   resize_canvas: (container) ->
     @canvas.setWidth($(container).width())
-    @canvas.setHeight(@canvas.getWidth()*0.8)
+    @canvas.setHeight(@canvas.getWidth()*0.7)
 
 
   element_view: (container, id) ->
@@ -136,32 +188,39 @@ class AniSam
     })
 
   create_sliders: (container) ->
-    @create_slider("pleasure")
-    @create_slider("arousal")
-    @create_slider("dominance")
+    window.sliders = {}
+    window.sliders.pleasure = @create_slider("pleasure")
+    window.sliders.arousal = @create_slider("arousal")
+    window.sliders.dominance = @create_slider("dominance")
 
 
   create_slider: (id) ->
     slider_element = document.getElementById("#{id}-slider")
     slider = noUiSlider.create slider_element, {
       start: 0
-      range:
-        'min': -1
-        'max': 1
+      range: 'min': -1, 'max': 1
+      behaviour: 'hover'
     }
-
     slider.on "slide", =>
       @slider_slide id, slider.get()
+    slider
 
   slider_slide: (id, value)->
     @emotion = @emo_engine.setPAD(id, value)
-    @render()
 
   ny: (y) ->
     y = y * @canvas.getHeight()
 
   nx: (x) ->
     x = x * @canvas.getWidth()
+
+  setup_animation_framerate: ->
+    unless window.requestAnimationFrame
+      window.requestAnimationFrame = window.webkitRequestAnimationFrame or
+      window.mozRequestAnimationFrame or
+      window.oRequestAnimationFrame or
+      window.msRequestAnimationFrame or
+      (callback, element) -> window.setTimeout callback, 1000/60
 
 class Feature
 
@@ -300,6 +359,22 @@ class Body extends Feature
 
     new fabric.Group([bodyL, bodyR])
 
+class Heart extends Feature
+
+  constructor: (options) ->
+    super options
+
+  make_shape: ->
+    heartL_position = new fabric.Point(@x, @y)
+    heartL = new fabric.Path("M #{@x} #{@y} C #{@x-@width1} #{@y-@height1} #{@x-@width2} #{@y+@height2} #{@x} #{@y+@point} C #{@x+@width2} #{@y+@height2} #{@x+@width1} #{@y-@height1} #{@x} #{@y} z")
+    heartL.set({
+      left: @x
+      fill: undefined
+      stroke: "#333333"
+      strokeWidth: 2
+      originY: "center"
+      originX: "center"
+    })
 
 class BezierCurve
   constructor: (@start, @end, @curve) ->

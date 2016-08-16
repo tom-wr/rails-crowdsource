@@ -1,14 +1,28 @@
-
-<h2 id="question"><%= @task.title %></h2>
+<% task_type = @task[:task_type] %>
+<h2 id="question" data=<%= task_type %>><%= @task.title %></h2>
 
 <hr>
 
 <div id="answers">
-  <% data = @task.data %>
+
   <ul id="answer-list" class="list-group">
-    <% data.each do |question| %>
-      <li data="<%= question[:next] %>" class="answer list-group-item list-group-item-action" ><%= question[:text] %></li>
-    <% end %>
+
+  <% if task_type == 1 %>
+      <% data = @task.data %>
+      <% data.each do |question| %>
+        <li data="<%= question[:next] %>" class="answer list-group-item list-group-item-action" ><%= question[:text] %></li>
+      <% end %>
+  <% end %>
+
   </ul>
+
+  <div id="anisam-panel" class="row"></div>
+  <div id="anisam-sliders" class="container-fluid">
+    <% if task_type == 2 %>
+      <%= render "shared/anisam" %>
+    <% end %>
+  </div>
+
   <button id="next-button" class="btn">Next</button>
+
 </div>
