@@ -4,7 +4,7 @@
     [{
         "id": "paras",
         "type": "matrix",
-        "scale": 7,
+        "scale": 5,
         "text": "Please rate this from 0-7",
         "terms": [
           {"id": 1, "term": "I was able to put myself in the shoes of those depicted in the photographs"},
@@ -16,7 +16,7 @@
     [{
         "id": "emotion",
         "type": "matrix",
-        "scale": 7,
+        "scale": 5,
         "text": "Please rate this from 0-7",
         "terms": [
           {"id": 1, "term": "I was able to put myself in the shoes of those depicted in the photographs"},

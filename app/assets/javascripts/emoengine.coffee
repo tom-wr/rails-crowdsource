@@ -18,8 +18,8 @@ class EmoEngine
     HEAD_DIP: [0.05, 0.01, 0]
     WAIST_OFFSET: [0, 0.04, 0.06]
 
-    HEART_RANGE: [0.05, 0.1, 0.2]
-    HEART_PULSE: [1100, 900, 500]
+    HEART_RANGE: [0.1, 0.1, 0.1]
+    HEART_PULSE: [1800, 1100, 400]
     HEART_DIP: [0.9, 0.87, 0.87 ]
     HEART_SIZE: [-0.2, 0, 0.1 ]
 

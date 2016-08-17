@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def tutorial
-
+    cookies[:completed] = 0
   end
 
   def classify

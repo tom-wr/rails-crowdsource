@@ -16,12 +16,10 @@ ready = ->
   # App started with globals set in classify.html.erb
   if gl?
     if gl["task_type"] is "2"
-      anisam = new AniSam('#anisam-panel')
-      anisam.start()
+      window.anisam = new AniSam('#anisam-panel')
+      window.anisam.start()
     app = new ClassifyApp(gl)
     app.start()
-
-#$(document).on("page:load ready", ready)
 
 class ClassifyApp
 
@@ -31,7 +29,28 @@ class ClassifyApp
     @current_task = settings.task
     @data_pool = []
 
-    @images = ["FRE_000109.jpg", "FRE_000256.jpg", "FRE_000942.jpg", "FRE_000988.jpg", "FRE_001010.jpg",]
+    @images = [
+      "FRE_000109.jpg"
+      "FRE_000256.jpg"
+      "FRE_000740.jpg"
+      "FRE_001302.jpg"
+      "FRE_001001.jpg"
+      "FRE_001010.jpg"
+      "FRE_001160.jpg"
+      "FRE_001891.jpg"
+      "FRE_001935.jpg"
+      "FRE_002314.jpg"
+      "FRE_003522.jpg"
+      "FRE_003668.jpg"
+      "FRE_004349.jpg"
+      "FRE_004794.jpg"
+      "FRE_004914.jpg"
+      "FRE_008474.jpg"
+      "FRE_008497.jpg"
+      "FRE_008775.jpg"
+      "FRE_009766.jpg"
+      "FRE_009904.jpg"
+    ]
     @image_path = "/media/images/mixed/"
     @image_name = ""
     @image_tag = $("#image")
@@ -167,6 +186,7 @@ class ClassifyApp
     $("#answer-list").html("")
 
   clear_anisam: ->
+    delete window.anisam
     $("#anisam-canvas").remove()
     $("#anisam-sliders").html("")
 

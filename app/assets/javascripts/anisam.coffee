@@ -31,20 +31,18 @@ class AniSam
   _heart =
     level: 0.85
     size: 1
-    begin: 1
-    change: 1.05
 
   constructor: (container) ->
 
-    @emo_engine = new EmoEngine()
-    @emotion = @emo_engine.setupPAD(0,0,0)
     @setup(container)
 
   setup: (container) ->
     @setup_canvas(container)
     @setup_animation_framerate()
     @last_time = 0
-    @heart_size = 0.1
+    @heart_size = 1
+    @begin = 1
+    @change = 2
     @time = 0
 
   init_vars: ->
@@ -58,6 +56,14 @@ class AniSam
     @resize_canvas(container)
 
   start: ->
+    @setup_animation_framerate()
+    @emo_engine = new EmoEngine()
+    @emotion = @emo_engine.setupPAD(0,0,0)
+    @heart_size = 0.1
+    @begin = 0.1
+    @change = 100
+    @last_time = 0
+    @time = 0
     @render()
 
   render: () ->
@@ -137,29 +143,28 @@ class AniSam
 
     @heart_size_direction()
     @time = @time + delta
-    @heart_size = @heart_animate(@time, _heart.begin, _heart.change, @emotion.HEART_PULSE)
+    @heart_size = @heart_animate(@time, @begin, @change, @emotion.HEART_PULSE)
     @heart_size = @cap @heart_size, ( _heart.size + @emotion.HEART_RANGE), ( _heart.size - @emotion.HEART_RANGE)
-
     heart = new Heart({
       x: centre
       y: @ny @emotion.HEART_DIP
-      width1: @nx 0.05 * (@heart_size + @emotion.HEART_SIZE)
-      height1: @ny 0.05 * (@heart_size + @emotion.HEART_SIZE)
-      width2: @nx 0.05 * (@heart_size + @emotion.HEART_SIZE)
-      height2: @ny 0.07 * (@heart_size + @emotion.HEART_SIZE)
-      point: @ny 0.1 * (@heart_size + @emotion.HEART_SIZE)
+      width1: @nx 0.05 * @heart_size
+      height1: @ny 0.05 * @heart_size
+      width2: @nx 0.05 * @heart_size
+      height2: @ny 0.07 * @heart_size
+      point: @ny 0.1 * @heart_size
     })
 
     @features = [body, face, eyeL, eyeR, mouth, browL, browR, heart]
 
   heart_size_direction: () ->
-    if @heart_size >= _heart.size + @emotion.HEART_RANGE
-      _heart.begin = @heart_size
-      _heart.change = (_heart.size - @emotion.HEART_RANGE) - @heart_size
+    if @heart_size >= (_heart.size + @emotion.HEART_RANGE)
+      @begin = @heart_size
+      @change = (_heart.size - @emotion.HEART_RANGE) - @heart_size
       @time = 0
-    else if @heart_size <= _heart.size - @emotion.HEART_RANGE
-      _heart.begin = @heart_size
-      _heart.change = (_heart.size + @emotion.HEART_RANGE) - @heart_size
+    else if @heart_size <= (_heart.size - @emotion.HEART_RANGE)
+      @begin = @heart_size
+      @change = (_heart.size + @emotion.HEART_RANGE) - @heart_size
       @time = 0
 
   heart_animate: (time, begin, change, duration) ->
@@ -398,6 +403,5 @@ class QuadraticBezierCurve
 
   toSVG: ->
     "M#{@start.x} #{@start.y} Q#{@cp.x} #{@cp.y} #{@end.x} #{@end.y}"
-
 
 window.AniSam = AniSam
