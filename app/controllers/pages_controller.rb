@@ -4,10 +4,15 @@ class PagesController < ApplicationController
   end
 
   def start
+    cookies[:completed] = 0
   end
 
   def tutorial
-    cookies[:completed] = 0
+
+  end
+
+  def visual_counter
+
   end
 
   def classify

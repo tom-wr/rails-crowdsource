@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require nouislider
-//= require turbolinks
 //= require fabric
+//= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .

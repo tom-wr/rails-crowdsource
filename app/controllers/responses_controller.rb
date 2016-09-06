@@ -6,11 +6,11 @@ class ResponsesController < ApplicationController
   end
 
   def create
-    puts params[:response].merge(:session_id => session.id)
+    puts params[:response][:session_id] = session.id
     response = Response.new(response_params)
     if response.save
       count = count_completed_responses
-      if count < 20
+      if count < 15
         query = response_query()
         render :json => {
           task: query[:task],

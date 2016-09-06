@@ -1,0 +1,29 @@
+<div class="container">
+  <div>
+    <p>Instructions</p>
+  </div>
+
+  <div class="row">
+    <div id="visicount-panel" class="col-xs-6 col-xs-offset-3">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <%= render "shared/visicount" %>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+  document.onreadystatechange = function() {
+    if (document.readyState === 'complete'){
+      var visicount  = new VisiCount("visicount-panel");
+      console.log(visicount)
+    }
+  };
+
+</script>

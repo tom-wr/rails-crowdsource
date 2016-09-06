@@ -1,10 +1,20 @@
 <div class="container">
   <section class="survey-section survey-title-page">
-    <p>Welcome, welcome to this survey!</p>
+    <h2>Task Section Complete!</h2>
+    <p>Please take a moment to think about the task you have just completed. When you are ready click 'start' to advance to the survey questions</p>
     <button class="btn survey-next-btn">Start</button>
   </section>
 
   <%= bootstrap_form_tag url: survey_responses_path do |f| %>
+
+    <% @questions["pages"].each do | section | %>
+
+      <% section.each do | question | %>
+        <% question["terms"] = question["terms"].shuffle %>
+      <% end %>
+
+    <% end %>
+
     <% @questions["pages"].each_with_index do |section, index| %>
 
       <section class="survey-section survey-page" id=<%= "page_" +  (index + 1).to_s %>>
@@ -25,7 +35,7 @@
       <% if (index + 1) == @questions["pages"].length %>
         <input class="btn" name="commit" type="submit" value="Submit">
       <% else %>
-        <button type="button" class="btn survey-next-btn">Next</button>
+        <button type="button" class="btn survey-next-btn pull-right">Next</button>
       <% end %>
 
 

@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   resources :survey_responses
   get '/start' => 'pages#start'
   get '/classify/:id' => 'pages#classify'
-  get '/tutorial' => 'pages#tutorial'
+  get '/tutorial/daisy' => 'pages#tutorial'
+  get '/tutorial/visicount' => 'pages#visual_counter'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

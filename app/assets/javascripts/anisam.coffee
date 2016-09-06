@@ -1,4 +1,5 @@
 #=require emoengine
+#=require features
 
 class AniSam
 
@@ -31,6 +32,17 @@ class AniSam
   _heart =
     level: 0.85
     size: 1
+
+  _info_text =
+    pleasure:
+      text: "This slider controls the amount of pleasure in the emotion - from unpleasant to very pleasant."
+      icon: "smile-o fa-2x"
+    dominance:
+      text: "This slider controls the felt amount of control and dominance in the emotion - from feeling submissive and not in control to feeling powerful and in-control."
+      icon: "user fa-2x"
+    arousal:
+      icon: "heartbeat fa-2x"
+      text: "This slider controls amount of felt activity in the emotion - from calm and sedate to active and alert."
 
   constructor: (container) ->
 
@@ -91,8 +103,8 @@ class AniSam
       x: centre - @nx _eye.offset
       y:      @ny _brow.level + @emotion.HEAD_DIP
       slope:  @ny -@emotion.BROW_SLOPE
-      length: @nx @emotion.BROW_LENGTH
-      raise:  @ny @emotion.BROW_RAISE
+      length: @nx  @emotion.BROW_LENGTH
+      raise:  @ny  @emotion.BROW_RAISE
     })
 
     browR = new Brow({
@@ -148,11 +160,11 @@ class AniSam
     heart = new Heart({
       x: centre
       y: @ny @emotion.HEART_DIP
-      width1: @nx 0.05 * @heart_size
+      width1:  @nx 0.05 * @heart_size
       height1: @ny 0.05 * @heart_size
-      width2: @nx 0.05 * @heart_size
+      width2:  @nx 0.05 * @heart_size
       height2: @ny 0.07 * @heart_size
-      point: @ny 0.1 * @heart_size
+      point:   @ny 0.10 * @heart_size
     })
 
     @features = [body, face, eyeL, eyeR, mouth, browL, browR, heart]
@@ -186,17 +198,17 @@ class AniSam
     @canvas.setWidth($(container).width())
     @canvas.setHeight(@canvas.getWidth()*0.7)
 
-
   element_view: (container, id) ->
     $("<canvas>").appendTo(container).attr({
       "id": id,
     })
 
   create_sliders: (container) ->
-    window.sliders = {}
-    window.sliders.pleasure = @create_slider("pleasure")
-    window.sliders.arousal = @create_slider("arousal")
-    window.sliders.dominance = @create_slider("dominance")
+    sliders = {}
+    sliders.pleasure = @create_slider("pleasure")
+    sliders.arousal = @create_slider("arousal")
+    sliders.dominance = @create_slider("dominance")
+    window.sliders = sliders
 
 
   create_slider: (id) ->
@@ -208,10 +220,19 @@ class AniSam
     }
     slider.on "slide", =>
       @slider_slide id, slider.get()
+    slider.on "hover", (value) =>
+      $("#tutorial_slider_info").show()
+      $("#tutorial_slider_info").html(@slider_info_view(_info_text[id].icon, _info_text[id].text));
+    $("#tutorial_slider_info").hide()
     slider
 
-  slider_slide: (id, value)->
+  slider_slide: (id, value) ->
     @emotion = @emo_engine.setPAD(id, value)
+
+  slider_hover: (type) ->
+
+  slider_info_view: (icon, text) ->
+    "<i class='tutorial_info_icon fa fa-#{icon}'></i> #{text}"
 
   ny: (y) ->
     y = y * @canvas.getHeight()
@@ -226,182 +247,5 @@ class AniSam
       window.oRequestAnimationFrame or
       window.msRequestAnimationFrame or
       (callback, element) -> window.setTimeout callback, 1000/60
-
-class Feature
-
-  constructor: (options)->
-    @set_defaults()
-    for option, value of options
-      @set_option(option, value)
-    @shape = @make_shape()
-
-  set_defaults: ->
-    @x = 0
-    @y = 0
-    @width = 0
-    @height = 0
-
-  set_option: (option, value) ->
-    this["#{option}"] = value
-
-  make_shape: ->
-    new fabric.Circle({
-      fill: "#333333"
-      top: @y
-      left: @x
-      radius: 1
-    })
-
-class Eye extends Feature
-
-  constructor: (options) ->
-    super options
-
-  make_shape: ->
-    eye = new fabric.Circle({
-      originX: "center"
-      originY: "center"
-      stroke: "#333333"
-      strokeWidth: 2
-      radius: @size
-      fill: undefined
-    })
-    eyelid = new fabric.Circle({
-      originX: "center"
-      originY: "center"
-      startAngle: ((1.5 - @lid_droop) * Math.PI)
-      endAngle:  ((1.5+ @lid_droop) * Math.PI)
-      radius: @size - 1
-      fill: '#d8d8d8'
-      strokeWidth: 10
-      strokeWidth: '#e1e1e1'
-    })
-    pupil = new fabric.Circle({
-      originX: "center"
-      originY: "center"
-      fill: "#333333"
-      radius: @pupil_size
-    })
-    new fabric.Group([eye, pupil, eyelid], {
-      top: @y
-      left: @x
-      originX: "center"
-      originY: "center"
-    })
-
-class Mouth extends Feature
-
-  constructor: (options) ->
-    super options
-
-  make_shape: ->
-    cornerL = new fabric.Point(@x - @length, @y + @offset)
-    cornerR = new fabric.Point(@x + @length, @y + @offset)
-
-    lower_curve = @curve + @openness
-
-    path_string = new BezierCurve(cornerL, cornerR, lower_curve).toSVG()
-    path_string += new BezierCurve(cornerL, cornerR, @curve).toSVG()
-
-    path = new fabric.Path(path_string)
-    path.set({fill: undefined, stroke: "#333333", strokeWidth: 2})
-
-class Face extends Feature
-
-  constructor: (options) ->
-    super options
-
-  make_shape: ->
-    new fabric.Ellipse({
-      fill: "#ffffff"
-      stroke: "#333333"
-      strokeWidth: 4
-      top: @y
-      left: @x
-      rx: @width
-      ry: @width * 1.1
-      originY: "center"
-      originX: "center"
-    })
-
-class Brow extends Feature
-  constructor: (options) ->
-    super options
-
-  make_shape: ->
-    new fabric.Line(
-      [ @x - @length, @y - @raise + @slope, @x + @length, @y - @raise - @slope],
-      {
-        stroke: "#333333"
-        strokeWidth: 4
-      }
-    )
-
-class Body extends Feature
-
-  constructor: (options) ->
-    super options
-
-  make_shape: ->
-    bodyR_position = new fabric.Point(@x + @neck_offset, @y)
-    neck_start = new fabric.Point(@x - @neck_offset, @y)
-    neck_end = new fabric.Point(@x - @neck_offset, @y + @neck_length)
-    neck_path = "M #{neck_start.x} #{neck_start.y} L#{neck_end.x} #{neck_end.y}"
-
-    shoulder_path = "L#{@x - @shoulder_width} #{@y + @shoulder_dip}"
-    waist_path = "L#{@waist_x} #{@waist_y}"
-
-    path_string = neck_path + shoulder_path + waist_path
-    bodyL = new fabric.Path(path_string,{
-      fill:undefined
-      stroke: "#333333"
-      strokeWidth: 4
-    })
-
-    bodyR = fabric.util.object.clone(bodyL)
-    bodyR.set("flipX", true)
-    bodyR.setLeft(bodyR_position.x)
-
-    new fabric.Group([bodyL, bodyR])
-
-class Heart extends Feature
-
-  constructor: (options) ->
-    super options
-
-  make_shape: ->
-    heartL_position = new fabric.Point(@x, @y)
-    heartL = new fabric.Path("M #{@x} #{@y} C #{@x-@width1} #{@y-@height1} #{@x-@width2} #{@y+@height2} #{@x} #{@y+@point} C #{@x+@width2} #{@y+@height2} #{@x+@width1} #{@y-@height1} #{@x} #{@y} z")
-    heartL.set({
-      left: @x
-      fill: undefined
-      stroke: "#333333"
-      strokeWidth: 2
-      originY: "center"
-      originX: "center"
-    })
-
-class BezierCurve
-  constructor: (@start, @end, @curve) ->
-    @cp1 =
-      x: @start.x
-      y: @start.y + @curve
-
-    @cp2 =
-      x: @end.x
-      y: @end.y + @curve
-
-  toSVG: ->
-    "M#{@start.x} #{@start.y} C#{@cp1.x} #{@cp1.y} #{@cp2.x} #{@cp2.y} #{@end.x} #{@end.y}"
-
-class QuadraticBezierCurve
-  constructor: (@start, @end, @curve) ->
-    @mid =
-      x: (@start.x + @end.x)/2
-      y: (@start.y + @end.y)/2
-
-
-  toSVG: ->
-    "M#{@start.x} #{@start.y} Q#{@cp.x} #{@cp.y} #{@end.x} #{@end.y}"
 
 window.AniSam = AniSam

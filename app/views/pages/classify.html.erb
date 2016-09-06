@@ -7,17 +7,35 @@
   gl.task_type = <%= @task.task_type %>
 </script>
 
-<div class="container-fluid">
+<div id="aam" class="container-fluid">
+
   <div class="row">
 
-    <div id="image-panel" class="col-md-8">
-      <img id="image" class="img-responsive center-block"> </img>
+    <div id="classify-image-panel" class="col-md-8">
+
+        <img id="classify-image" class="img-responsive center-block"> </img>
+
+
+      <div class="row">
+      <button id="classify-caption-show" class="pull-right btn btn-default classify-caption-toggle">
+        <i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> Show Caption
+      </button>
+
+      <div id="classify-caption-panel" class="col-sm-12">
+        <p id="classify-caption-text" class="col-md-offset-2 col-md-8">TESTING</p>
+        <div id="classify-caption-close" class="pull-right btn btn-default classify-caption-toggle" role="button">
+          <i class="fa fa-times fa-lg" aria-hidden="true"></i> Close Caption
+        </div>
+      </div>
+      </div>
+
+
+
     </div>
 
-    <div id="question-panel" class="col-md-4 container">
+    <div id="classify-question-panel" class="col-md-4 container">
       <%= render "pages/classify_answers" %>
     </div>
-
   </div>
 
 </div>
