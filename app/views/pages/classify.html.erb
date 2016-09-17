@@ -1,4 +1,8 @@
 
+<% content_for(:body_attributes) do %>
+
+<% end %>
+
 <script type="text/javascript">
   gl = {};
   gl.project = <%= @project.id %>;
@@ -29,8 +33,6 @@
       </div>
       </div>
 
-
-
     </div>
 
     <div id="classify-question-panel" class="col-md-4 container">
@@ -38,4 +40,9 @@
     </div>
   </div>
 
+</div>
+<div id="classify-counter" class="text-right">
+  <p>
+    <span class="badge badge-aam"><span id="count">0</span> / 12 Complete</span>
+  </p>
 </div>

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users
   root 'pages#home'
+
+  # routes for project resources
   resources :projects
   resources :taskflows
   resources :datasets
@@ -7,10 +10,15 @@ Rails.application.routes.draw do
   resources :responses
   resources :surveys
   resources :survey_responses
+
+  #routes for pages
   get '/start' => 'pages#start'
   get '/classify/:id' => 'pages#classify'
   get '/tutorial/daisy' => 'pages#tutorial'
   get '/tutorial/visicount' => 'pages#visual_counter'
+
+  #routes for users
+  get '/profile/:id' => 'pages#profile'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

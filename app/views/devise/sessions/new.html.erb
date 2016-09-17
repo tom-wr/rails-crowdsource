@@ -1,0 +1,28 @@
+<div class="col-md-offset-4 col-md-4">
+
+<h2>Log in</h2>
+
+<%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="form-group">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, hide_label: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off", hide_label: true %>
+  </div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div class="form_group">
+      <%= f.check_box :remember_me, hide_label: true %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Log in" %>
+  </div>
+<% end %>
+or
+<%= render "devise/shared/links" %>
+</div>

@@ -17,7 +17,7 @@ class SurveyResponsesController < ApplicationController
   end
 
   def survey_response_params
-    params.require('survey').permit(:session_id, data: [ paras:[], emotion:[], gender:[], age:[] ] )
+    params.require('survey').permit(:session_id, :project_id, data: [ paras:[], emotion:[], gender:[], age:[] ] )
   end
 
 end

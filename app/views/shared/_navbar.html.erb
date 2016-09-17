@@ -3,14 +3,24 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-2">
-        <%= image_tag('aam-logo-blue.png', class: "img-responsive") %>
+        <% if action_name == 'home' %>
+          <% logo_image = "aam-logo.png" %>
+        <% else %>
+          <% logo_image = "aam-logo-blue.png" %>
+        <% end %>
+        <a href="/"><%= image_tag("#{logo_image}", class: "img-responsive") %></a>
       </div>
-      <div>
-        <p id="classify-counter" class="col-md-2 pull-right text-right">
-          <span class="badge badge-aam"><span id="count">0</span> / 15 Complete</span>
-        </p>
+      <div class="navbar-user nav navbar-nav navbar-right">
+        <ul class="navbar-user-options">
+          <% if user_signed_in? %>
+          <li><%= current_user.username %></li>
+          <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
+          <% else %>
+          <li><%= link_to "Register", new_user_registration_path %></li>
+          <li><%= link_to "Sign in", new_user_session_path %></li>
+          <% end %>
+        </ul>
       </div>
-
     </div>
   </div>
 </nav>

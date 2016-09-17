@@ -11,9 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require nouislider
 //= require fabric
 //= require turbolinks
+//= require jquery-ready
 //= require bootstrap-sprockets
 //= require_tree .

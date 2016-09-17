@@ -16,12 +16,22 @@
 
   </ul>
 
+  <% if task_type == 2 %>
   <div id="anisam-panel" class="row"></div>
   <div id="anisam-sliders" class="container-fluid">
-    <% if task_type == 2 %>
+
       <%= render "shared/anisam" %>
-    <% end %>
+
   </div>
+  <% end %>
+
+  <% if task_type == 3 %>
+    <div id="visicount-panel"></div>
+    <div id="visicount-sliders" class="container-fluid">
+      <%= render "shared/visicount" %>
+    </div>
+
+  <% end %>
 
   <button id="next-button" class="btn pull-right">Next</button>
 

@@ -41,13 +41,12 @@ class Inkan
       shape.draw()
 
   tick: (render) ->
-    window.requestAnimationFrame(render)
+    window.requestAnimationFrame render
     @render_array = []
     time = new Date().getTime()
     delta = time - @latch_time
     @latch_time = time
     delta
-
 
   clear: ->
     @ctx.clearRect(0, 0, @width, @height)
@@ -55,8 +54,8 @@ class Inkan
   Line: (points, options) ->
     new InkanLine points, options, @ctx
 
-  Text: (text, options) ->
-    new InkanText text, options, @ctx
+  Text: (text, left, top, options) ->
+    new InkanText text, left, top, options, @ctx
 
   Circle: (left, top, radius, options) ->
     new InkanCircle left, top, radius, options, @ctx

@@ -6,11 +6,11 @@ class ResponsesController < ApplicationController
   end
 
   def create
-    puts params[:response][:session_id] = session.id
+    params[:response][:session_id] = session.id
     response = Response.new(response_params)
     if response.save
       count = count_completed_responses
-      if count < 15
+      if count < 12
         query = response_query()
         render :json => {
           task: query[:task],
@@ -18,13 +18,13 @@ class ResponsesController < ApplicationController
           count: count
         }
       else
-        render :js => "window.location = '/surveys/1'"
+        redirect_to "/surveys/1", flash: { project_id: params[:project_id]}
       end
     end
   end
 
   def response_params
-    params.require(:response).permit(:project_id, :session_id, :image_id, data: [:question, answer: []])
+    params.require(:response).permit(:project_id, :session_id, :image_id, data: [:question, :caption, answer: [] ])
   end
 
   def count_completed_responses

@@ -4,3 +4,6 @@ $("#classify-question-panel").html("<%= j render partial: 'pages/classify_answer
   window.anisam = new AniSam("#anisam-panel")
   window.anisam.start()
 <% end %>
+<% if task_type == 3 %>
+  var visicount  = new VisiCount("visicount-panel");
+<% end %>

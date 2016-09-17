@@ -1,16 +1,27 @@
 <div class="container">
+
+  <div id="survey-container" class="col-md-offset-1 col-md-10">
+
+  <div class="progress">
+    <div id="survey-progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">Section <span class="progress-count">0</span> of 3</div>
+  </div>
+
   <section class="survey-section survey-title-page">
-    <h2>Task Section Complete!</h2>
+    <h2>Survey Section</h2>
     <p>Please take a moment to think about the task you have just completed. When you are ready click 'start' to advance to the survey questions</p>
+    <br>
+    <br>
     <button class="btn survey-next-btn">Start</button>
   </section>
 
   <%= bootstrap_form_tag url: survey_responses_path do |f| %>
-
+    <%= f.hidden_field "survey[data[project_id]]", value: @project_id %>
     <% @questions["pages"].each do | section | %>
 
       <% section.each do | question | %>
-        <% question["terms"] = question["terms"].shuffle %>
+        <% if question["type"] == "matrix" %>
+          <% question["terms"] = question["terms"].shuffle %>
+        <% end %>
       <% end %>
 
     <% end %>
@@ -20,7 +31,8 @@
       <section class="survey-section survey-page" id=<%= "page_" +  (index + 1).to_s %>>
 
       <% section.each do |question| %>
-
+        <h3 class="survey-question-title"><strong><%= question["question"] %></strong></h3>
+        <p class="lead survey-question-text"><%= question["text"] %></p>
         <% name = "survey[data["+question["id"].to_s+"]" %>
 
         <% case question["type"] %>
@@ -35,7 +47,7 @@
       <% if (index + 1) == @questions["pages"].length %>
         <input class="btn" name="commit" type="submit" value="Submit">
       <% else %>
-        <button type="button" class="btn survey-next-btn pull-right">Next</button>
+        <button type="button" class="btn btn-lg survey-next-btn pull-right">Next</button>
       <% end %>
 
 
@@ -43,4 +55,5 @@
     <% end %>
   <% end %>
 
+  </div>
 </div>

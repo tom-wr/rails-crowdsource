@@ -1,10 +1,15 @@
 class VisiCount
 
-
   _items = [
-    name: "Person"
-    plural: "People"
-    icon: "\uf007"
+    name: "Bicycle"
+    plural: "Bicycles"
+    icon: "\uf206"
+    count: 0
+    rail: 0
+  ,
+    name: "Ground-Vehicle"
+    plural: "Ground-Vehicles"
+    icon: "\uf0d1"
     count: 0
     rail: 0
   ,
@@ -13,26 +18,25 @@ class VisiCount
     icon: "\uf072"
     count: 0
     rail: 0
-  ,
-    name: "Hat"
-    plural: "Hats"
-    icon: "\uf2ae"
-    count: 0
-    rail: 0
   ]
 
   constructor: (container)->
     @setup_canvas container
+    @setup_items()
     @setup_sliders container
     @setup_rails()
     @setup_icons()
     @render()
 
   setup_canvas: (container) ->
-    id = "visicount-canvas"
     @inkan = new Inkan container
-    @gutter = @inkan.width * 0.25
-    @count_space = @inkan.width * 0.75
+    @gutter = @inkan.width * 0.3
+    @count_space = @inkan.width * 0.7
+
+  setup_items: ->
+    for item, index in _items
+      item.count = 0;
+      item.rail = 0;
 
   setup_rails: ->
     division = @inkan.height / 6
@@ -51,7 +55,8 @@ class VisiCount
   draw_icons: ->
     @inkan.clear()
     for item, index in _items
-      counter = @inkan.Text "#{item.count}", @gutter - 10, item.rail, {font: "20px Arial" }
+      count_text = if item.count >= 10 then "#{item.count}+" else "#{item.count}"
+      counter = @inkan.Text "#{count_text}", 0, item.rail + 30, {font: "20px Arial" }
       if item.count > 0
         @add_icon_count(number, item) for number in [1..item.count]
       @inkan.add item.text
@@ -61,7 +66,7 @@ class VisiCount
 
   add_icon_count: (number, item) ->
     max = 10+1
-    shape = @inkan.Text item.icon, 0, item.rail, {font: "40px FontAwesome"}
+    shape = @inkan.Text item.icon, 0, item.rail, {font: "28px FontAwesome"}
     shape.top = item.rail + 5
     shape.left = @gutter + ( @count_space / max ) * number
     @inkan.add shape
@@ -70,7 +75,6 @@ class VisiCount
     for item in _items
       if id.toLowerCase() is item.name.toLowerCase()
         item.count = ~~value
-        console.log item
 
   element_view: (container, id) ->
     $("<canvas>").appendTo(container).attr({
@@ -83,9 +87,9 @@ class VisiCount
 
   setup_sliders: ->
     window.sliders = {}
-    window.sliders.pleasure =   @create_slider("person")
-    window.sliders.dominance =  @create_slider("aircraft")
-    window.sliders.dominance =  @create_slider("hat")
+    window.sliders.bicycles =   @create_slider("bicycle")
+    window.sliders.vehicles =  @create_slider("ground-vehicle")
+    window.sliders.aircraft =  @create_slider("aircraft")
 
   create_slider: (id) ->
     slider_element = document.getElementById "#{id}-slider"
@@ -101,11 +105,5 @@ class VisiCount
 
   slider_slide: (id, value)->
     @set_count(id, value)
-
-  ny: (y) ->
-    y = y * @canvas.getHeight()
-
-  nx: (x) ->
-    x = x * @canvas.getWidth()
 
 window.VisiCount = VisiCount
