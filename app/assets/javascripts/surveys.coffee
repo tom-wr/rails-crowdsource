@@ -14,11 +14,11 @@ class Survey
 
   advance: ->
     @unhighlight()
-    #if @check_form()
-    @stage++
-    @display_survey_stage()
-    @update_progress_bar()
-    window.scrollTo 0, 0
+    if @check_form()
+      @stage++
+      @display_survey_stage()
+      @update_progress_bar()
+      window.scrollTo 0, 0
 
   display_survey_stage: ->
     $(".survey-section").hide()

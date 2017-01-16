@@ -1,12 +1,11 @@
 <div class="container">
-  <div>
-    <p>Instructions</p>
+  <div class="lead">
+    <p>One question requires you to count the number of objects you can see in a photograph. You can use the sliders below to indicate how many are visible in a photograph.</p>
+    <p>Mouse over the sliders below to find out more information about what we would like you to count for us.</p>
   </div>
 
   <div class="row">
-    <div id="visicount-panel" class="col-xs-6 col-xs-offset-3">
-
-    </div>
+    <div id="visicount-panel" class="col-xs-6 col-xs-offset-3"></div>
   </div>
 
   <div class="row">
@@ -15,14 +14,9 @@
     </div>
   </div>
 
+  <div class="row">
+
+    <a href="/classify/1" type="button" class="pull-right btn btn-lg btn-primary">Next</a>
+  </div>
+
 </div>
-
-<script type="text/javascript">
-
-  document.onreadystatechange = function() {
-    if (document.readyState === 'complete'){
-      var visicount  = new VisiCount("visicount-panel");
-    }
-  };
-
-</script>

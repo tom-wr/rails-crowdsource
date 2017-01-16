@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917135254) do
+ActiveRecord::Schema.define(version: 20160921161328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,11 +34,22 @@ ActiveRecord::Schema.define(version: 20160917135254) do
   end
 
   create_table "media", force: :cascade do |t|
-    t.string   "name"
-    t.string   "image"
-    t.integer  "dataset_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "aam_id"
+    t.string   "mime_type"
+    t.string   "file"
+    t.string   "accession_number"
+    t.string   "caption"
+    t.string   "caption_alt"
+    t.string   "identifier"
+    t.string   "place"
+    t.string   "place_id"
+    t.string   "object_id"
+    t.string   "actor_appellation"
+    t.string   "collection"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "media_type_id"
+    t.string   "object_note"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -73,6 +84,16 @@ ActiveRecord::Schema.define(version: 20160917135254) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.integer  "category"
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tags", ["parent_id"], name: "index_tags_on_parent_id", using: :btree
+
   create_table "taskflows", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
@@ -106,6 +127,7 @@ ActiveRecord::Schema.define(version: 20160917135254) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "username"
+    t.boolean  "guest"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   #routes for pages
   get '/start' => 'pages#start'
   get '/classify/:id' => 'pages#classify'
-  get '/tutorial/daisy' => 'pages#tutorial'
+  get '/tutorial/i-am-sam' => 'pages#tutorial'
   get '/tutorial/visicount' => 'pages#visual_counter'
 
   #routes for users

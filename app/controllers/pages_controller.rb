@@ -1,10 +1,11 @@
 class PagesController < ApplicationController
 
   def home
-
+    session[:guest_user_id] = nil
   end
 
   def start
+    @condition = params[:condition]
     cookies[:completed] = 0
   end
 

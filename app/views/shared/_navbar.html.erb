@@ -11,6 +11,11 @@
         <a href="/"><%= image_tag("#{logo_image}", class: "img-responsive") %></a>
       </div>
       <div class="navbar-user nav navbar-nav navbar-right">
+      <div id="classify-counter" class="text-right">
+        <p>
+          <span class="badge badge-aam"><span id="count">0</span> / 12 Images Complete</span>
+        </p>
+      </div>
         <ul class="navbar-user-options">
           <% if user_signed_in? %>
           <li><%= current_user.username %></li>
@@ -23,4 +28,5 @@
       </div>
     </div>
   </div>
+
 </nav>

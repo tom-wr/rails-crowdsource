@@ -66,4 +66,11 @@ gem 'font-awesome-sass'
 # carrierwave for handling dataset file uploads and processing
 gem 'carrierwave', '~> 0.11.2'
 
+# users
 gem 'devise', '~> 3.5', '>= 3.5.6'
+
+#utils
+gem "awesome_print", require:"ap"
+
+# aws
+gem 'aws-sdk', '~> 2'

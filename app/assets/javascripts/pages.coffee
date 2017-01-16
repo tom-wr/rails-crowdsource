@@ -23,6 +23,7 @@ ready = ->
 pages_ready = (action) ->
   switch action
     when "classify" then classify_ready()
+    when "visual_counter" then visual_counter_ready()
 
 classify_ready = ->
   if gl?
@@ -34,4 +35,6 @@ classify_ready = ->
 
 survey_ready = ->
   survey = new Survey()
-  console.log ("meow")
+
+visual_counter_ready = ->
+  visicount  = new VisiCount "visicount-panel"

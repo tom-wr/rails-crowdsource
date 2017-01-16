@@ -103,13 +103,15 @@ ul #answers{
 }
 
 #classify-counter{
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: relative;
+  right: 0px;
 }
 
-#classify-counter .badge {
-  background-color: $color-aam-blue;
+#classify-counter p {
+  .badge {
+    font-size: 1em;
+    background-color: $color-aam-blue;
+  }
 }
 
 #classify-question-panel .btn {

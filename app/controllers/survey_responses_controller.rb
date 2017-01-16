@@ -5,13 +5,11 @@ class SurveyResponsesController < ApplicationController
   end
 
   def create
-    params[:survey].merge(:session_id => session.id)
+
     response = Hash[
-      "session_id" => session.id,
+      "session_id" => session[:guest_user_id],
       "data" => params[:survey][:data]
     ]
-
-    puts response
     @survey_response = SurveyResponse.create(response)
 
   end

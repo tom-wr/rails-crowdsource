@@ -10,10 +10,16 @@
           <li>Each answer you give adds a label to image to help improve the museum's collection.</li>
           <li>After completing 12 photographs you will be asked to complete a short survey and an interview to get your thoughts about your experience.</li>
           <li>Click on the <%= image_tag("view-caption.png") %> button anytime to view more information about a photograph</li>
-          <li class="alert alert-warning">Caution: You will be viewing war photography so some of the images may be disturbing.</li>
+          <li class="alert alert-warning">Caution: You will be viewing war photography and so some of the images may be disturbing.</li>
           <p></p>
         </ul>
-        <a href="/tutorial/daisy" type='button' class='btn btn-primary btn-lg pull-right'>Next</a>
+        <% if @condition == "1" %>
+          <a href="/tutorial/i-am-sam" type='button' class='btn btn-primary btn-lg pull-right'>Next</a>
+        <% elsif @condition == "2" %>
+          <a href="/tutorial/visicount" type='button' class='btn btn-primary btn-lg pull-right'>Next</a>
+        <% else %>
+          <a href="/classify/1" type='button' class='btn btn-primary btn-lg pull-right'>Next</a>
+        <% end %>
       </div>
     </div>
 

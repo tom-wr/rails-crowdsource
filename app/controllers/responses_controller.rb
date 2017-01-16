@@ -6,7 +6,7 @@ class ResponsesController < ApplicationController
   end
 
   def create
-    params[:response][:session_id] = session.id
+    params[:response][:session_id] = session[:guest_user_id]
     response = Response.new(response_params)
     if response.save
       count = count_completed_responses
@@ -24,6 +24,8 @@ class ResponsesController < ApplicationController
   end
 
   def response_params
+    p session[:guest_user_id]
+    p params[:response][:session_id]
     params.require(:response).permit(:project_id, :session_id, :image_id, data: [:question, :caption, answer: [] ])
   end
 

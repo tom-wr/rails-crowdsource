@@ -1,23 +1,29 @@
 class VisiCount
 
   _items = [
-    name: "Bicycle"
-    plural: "Bicycles"
-    icon: "\uf206"
+    name: "Insignia"
+    plural: "Insignia"
+    icon: "\uf139"
     count: 0
     rail: 0
+    info: "Count the number of different visible insignia (rank badge) that people are wearing in the photographs. Look for rank badges, typically found on the upper arm of a uniform."
+    info_icon: "chevron-circle-up fa-2x"
   ,
     name: "Ground-Vehicle"
     plural: "Ground-Vehicles"
     icon: "\uf0d1"
     count: 0
     rail: 0
+    info: "Count the number of ground vehicles that are visible in the photograph. Include cars, trucks, tanks, motorcycles and bicycles."
+    info_icon: "truck fa-2x"
   ,
     name: "Aircraft"
     plural: "Aircraft"
     icon: "\uf072"
     count: 0
     rail: 0
+    info: "Count the number of aircraft you can see in the photograph."
+    info_icon: "plane fa-2x"
   ]
 
   constructor: (container)->
@@ -87,7 +93,7 @@ class VisiCount
 
   setup_sliders: ->
     window.sliders = {}
-    window.sliders.bicycles =   @create_slider("bicycle")
+    window.sliders.bicycles =   @create_slider("insignia")
     window.sliders.vehicles =  @create_slider("ground-vehicle")
     window.sliders.aircraft =  @create_slider("aircraft")
 
@@ -101,9 +107,22 @@ class VisiCount
     }
     slider.on "slide", =>
       @slider_slide id, slider.get()
+    slider.on "hover", (value) =>
+      item = @get_item id
+      $("#tutorial_slider_info").show()
+      $("#tutorial_slider_info").html(@slider_info_view(item.info_icon, item.info));
+    $("#tutorial_slider_info").hide()
     slider
 
   slider_slide: (id, value)->
     @set_count(id, value)
+
+  slider_info_view: (icon, text) ->
+    "<i class='tutorial_info_icon fa fa-#{icon}'></i> #{text}"
+
+  get_item: (id) ->
+    for i in _items
+      if i.name.toLowerCase() == id
+        return i
 
 window.VisiCount = VisiCount
