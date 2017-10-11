@@ -5,7 +5,6 @@ class PagesController < ApplicationController
   end
 
   def start
-    @condition = params[:condition]
     cookies[:completed] = 0
   end
 
@@ -18,7 +17,7 @@ class PagesController < ApplicationController
   end
 
   def classify
-    @project = Project.find(params[:id])
+    @project = Project.find(1)
     @taskflow = @project.taskflows.sample
     @task = @taskflow.first_task
   end
@@ -29,7 +28,6 @@ class PagesController < ApplicationController
     if @user == nil
       redirect_to root_path, :notice=> "User not found!"
     end
-
   end
 
 end

@@ -1,34 +1,5 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby on rails crowdsourcing app.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-Sass and bootstrap is being used. Gem files are included. Bootstrap forms gem included.
-
-Associations
-
-Taskflows have many Tasks but also belong to Tasks - this is so that a taskflow can have a default task column
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Image classification in the style of Zooniverse citizen science projects.

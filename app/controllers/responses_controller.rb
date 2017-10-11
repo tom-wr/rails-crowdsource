@@ -10,7 +10,7 @@ class ResponsesController < ApplicationController
     response = Response.new(response_params)
     if response.save
       count = count_completed_responses
-      if count < 12
+      if count < 99
         query = response_query()
         render :json => {
           task: query[:task],
@@ -18,7 +18,8 @@ class ResponsesController < ApplicationController
           count: count
         }
       else
-        redirect_to "/surveys/1", flash: { project_id: params[:project_id]}
+        redirect to "/"
+        #redirect_to "/surveys/1", flash: { project_id: params[:project_id]}
       end
     end
   end

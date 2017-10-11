@@ -190,7 +190,8 @@ class Classify
       @populate_answers(data)
     else if task_type == 2
       new AniSam "#anisam-panel"
-    $("#count").text data.count
+    # element in navbar
+    #$("#count").text data.count
 
   cleanse_answers: ->
     @data_pool = []
